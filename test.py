@@ -78,3 +78,46 @@ class TestTimeout(unittest.TestCase):
                 await forward(1)
                 with self.assertRaisesRegex(Exception, 'inner'):
                     await task
+
+    @async_test
+    async def test_cleanup(self):
+            loop = asyncio.get_event_loop()
+            cleanup = asyncio.Event()
+
+            async def worker():
+                with timeout(1):
+                    try:
+                        await asyncio.sleep(2)
+                    except asyncio.CancelledError:
+                        cleanup.set()
+                        raise
+
+            with FastForward(loop) as forward:
+                task = asyncio.ensure_future(worker())
+
+                await forward(1)
+                with self.assertRaises(asyncio.TimeoutError):
+                    await task
+
+                self.assertTrue(cleanup.is_set())
+
+    @async_test
+    async def test_ignore_timeout(self):
+            loop = asyncio.get_event_loop()
+            ignored = asyncio.Event()
+
+            async def worker():
+                with timeout(1):
+                    try:
+                        await asyncio.sleep(2)
+                    except asyncio.CancelledError:
+                        # Swallow the exception
+                        pass
+                ignored.set()
+
+            with FastForward(loop) as forward:
+                task = asyncio.ensure_future(worker())
+
+                await forward(1)
+                await task
+                self.assertTrue(ignored.is_set())

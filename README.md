@@ -17,6 +17,31 @@ with timeout(1):
     await asyncio.sleep(0.5)
 ```
 
+You can respond to a timeout from _outside_ the context by catching `asyncio.TimeoutError`
+
+```python
+try:
+    with timeout(1):
+        await asyncio.sleep(1.5)
+        print('This line is not reached')
+except asyncio.TimeoutError:
+    print('Timed out')
+```
+  
+or you can respond to a timeout from _inside_ the context by catching `asyncio.CancelledError` and re-raising.
+
+```python
+try:
+    with timeout(1):
+        try:
+            await asyncio.sleep(1.5)
+        except asyncio.CancelledError
+            print('Doing some cleanup')
+            raise
+except asyncio.TimeoutError:
+    print('Timed out')
+```
+
 
 ## Differences to alternatives
 
