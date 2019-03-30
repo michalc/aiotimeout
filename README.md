@@ -20,7 +20,7 @@ with timeout(1):
 
 ## Differences to alternatives
 
-- `asyncio.wait_for` does not offer a context manager. in some cases a context manager is clearer.
+- `asyncio.wait_for` does not offer a context manager. In some cases a context manager is clearer.
 
 - `asyncio.wait_for` creates/uses an extra task. In some cases this is not necessary, and an extra task adds non-determinism in terms of sequence of operations.
 
