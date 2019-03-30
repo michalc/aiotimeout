@@ -1,4 +1,4 @@
-# aiotimeout
+# aiotimeout [![CircleCI](https://circleci.com/gh/michalc/aiotimeout.svg?style=svg)](https://circleci.com/gh/michalc/aiotimeout) [![Test Coverage](https://api.codeclimate.com/v1/badges/8de540239bd7d6566f58/test_coverage)](https://codeclimate.com/github/michalc/aiotimeout/test_coverage)
 
 Timeout context manager for asyncio Python
 
