@@ -18,7 +18,7 @@ setuptools.setup(
     py_modules=[
         'aiotimeout',
     ],
-    python_requires='~=3.7',
+    python_requires='~=3.5',
     tests_require=[
         'aiofastforward==0.0.24',
     ],
